@@ -116,10 +116,17 @@
             }
         }
     </script>
+    <style>
+        .btn-warning:hover{
+            transform: scale(1.1);
+            transition: 1s;
+            border:2px solid rgb(255, 123, 0);
+        }
+    </style>
 </head>
 <body class="container-fluid" onload="bodyLoad()">
-    <header class="btn btn-danger w-100 p-2 text-center text-white">
-        <h1> <span class="bi bi-cart4"></span> SHOPPER</h1>
+    <header class="bg-danger w-100 p-2 text-center text-white">
+        <h1> <span class="bi bi-cart4"></span>I-SHOP</h1>
     </header>
     <section class="mt-2 row">
         <nav class="col-2">
@@ -129,6 +136,8 @@
                     <select onchange="categoryChange()" class="form-select" id="listCategories">
                     </select>
                 </div>
+                <label class="form-label mt-5"><h5>Please Do Visit also:<br> Click Below</h5></label>
+                <a class="text-warning" style="text-decoration: none;" href="https://khanafzal17.github.io/Shopper-Template-Complete/#" target="_blank"><button class="btn btn-warning fw-bold  text-end">SHOPPER-TEMPLATE</button></a>
             </div>
         </nav>
         <main class="col-8 d-flex flex-wrap overflow-auto" style="height:500px">
