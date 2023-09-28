@@ -13,7 +13,7 @@
 
     <script type="text/javascript">
         function LoadCategories(){
-            fetch("http://fakestoreapi.com/products/categories")
+            fetch("https://fakestoreapi.com/products/categories")
             .then(function(response){
                 return response.json();
             })
@@ -63,7 +63,7 @@
 
         function bodyload(){
             LoadCategories();
-            LoadProducts("http://fakestoreapi.com/products");
+            LoadProducts("https://fakestoreapi.com/products");
             GetCartCount();
         }
 
@@ -72,14 +72,14 @@
             if(categoryName=="all"){
                 LoadProducts("http://fakestoreapi.com/products");
             } else {
-                LoadProducts(`http://fakestoreapi.com/products/category/${categoryName}`);
+                LoadProducts(`https://fakestoreapi.com/products/category/${categoryName}`);
             }
         }
         function DisplayCategory(categoryName){
             if(categoryName=="all"){
                 LoadProducts("http://fakestoreapi.com/products");
             } else {
-                LoadProducts(`http://fakestoreapi.com/products/category/${categoryName}`);
+                LoadProducts(`https://fakestoreapi.com/products/category/${categoryName}`);
             }
         }
         var cartItems = [];
@@ -89,7 +89,7 @@
         }
 
         function AddClick(id){
-            fetch(`http://fakestoreapi.com/products/${id}`)
+            fetch(`https://fakestoreapi.com/products/${id}`)
             .then(function(response){
                 return response.json();
             })
