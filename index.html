@@ -18,7 +18,7 @@
                 return response.json();
             })
             .then(function(categories){
-                categories.unshift("all");
+                categories.unshift("All");
                 categories.map(function(category){
                      var option = document.createElement("option");
                      option.text = category.toUpperCase();
@@ -69,14 +69,14 @@
 
         function CategoryChanged(){
             var categoryName = document.getElementById("lstCategories").value;
-            if(categoryName=="all"){
+            if(categoryName=="All"){
                 LoadProducts("https://fakestoreapi.com/products");
             } else {
                 LoadProducts(`https://fakestoreapi.com/products/category/${categoryName}`);
             }
         }
         function DisplayCategory(categoryName){
-            if(categoryName=="all"){
+            if(categoryName=="All"){
                 LoadProducts("https://fakestoreapi.com/products");
             } else {
                 LoadProducts(`https://fakestoreapi.com/products/category/${categoryName}`);
@@ -145,7 +145,7 @@
             <span class="h3">Fashop.</span>
         </div>
         <div>
-            <span class="me-3 iconss"><a href="javascript:DisplayCategory('all')">Home</a></span>
+            <span class="me-3 iconss"><a href="javascript:DisplayCategory('All')">Home</a></span>
             <span class="me-3 iconss"><a href="javascript:DisplayCategory('electronics')">Electronics</a></span>
             <span class="me-3 iconss"><a href="javascript:DisplayCategory('jewelery')">Jewelery</a></span>
             <span class="me-3 iconss"><a href="javascript:DisplayCategory('men\'s clothing')">Men's Fashion</a></span>
