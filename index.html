@@ -70,14 +70,14 @@
         function CategoryChanged(){
             var categoryName = document.getElementById("lstCategories").value;
             if(categoryName=="all"){
-                LoadProducts("http://fakestoreapi.com/products");
+                LoadProducts("https://fakestoreapi.com/products");
             } else {
                 LoadProducts(`https://fakestoreapi.com/products/category/${categoryName}`);
             }
         }
         function DisplayCategory(categoryName){
             if(categoryName=="all"){
-                LoadProducts("http://fakestoreapi.com/products");
+                LoadProducts("https://fakestoreapi.com/products");
             } else {
                 LoadProducts(`https://fakestoreapi.com/products/category/${categoryName}`);
             }
