@@ -1,165 +1,177 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
-    <title>
-        I-SHOP
-    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I-Shop</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.min.css">
     <link rel="shortcut icon" href="./icon-shopper.ico" type="image/x-icon">
-    <script>
-        function loadCategories() {
-            fetch("https://fakestoreapi.com/products/categories")
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (categories) {
-                    categories.unshift("all");
-                    for (var category of categories) {
-                        var option = document.createElement("option");
-                        option.text = category.toUpperCase();
-                        option.value = category;
 
-                        document.getElementById("listCategories").appendChild(option);
-
-                    }
-
-                })
-        }
-
-        function loadProducts(url) {
-        document.querySelector("main").innerHTML = "";
-            fetch(url).then(function (response) {
+    <script type="text/javascript">
+        function LoadCategories(){
+            fetch("http://fakestoreapi.com/products/categories")
+            .then(function(response){
                 return response.json();
             })
-                .then(function (products) {
-                    for (var product of products) {
-                        var div = document.createElement("div");
-                        div.className = "card m-2 p-2";
-                        div.style.width = "200px";
-                        div.innerHTML = `
-                        <img src=${product.image} height="150px" class="card-img-top">
-                        <div class="card-header" style="height:130px">
-                            <p> ${product.title} </p>
+            .then(function(categories){
+                categories.unshift("all");
+                categories.map(function(category){
+                     var option = document.createElement("option");
+                     option.text = category.toUpperCase();
+                     option.value = category;
+                     document.getElementById("lstCategories").appendChild(option);
+                })
+            })
+        }
+
+        function LoadProducts(url){
+            document.querySelector("main").innerHTML= "";
+            fetch(url)
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(products){
+                 products.map(function(product){
+                      var div = document.createElement("div");
+                      div.className = "card p-2 m-2";
+                      div.style.width = "200px";
+                      div.innerHTML = `
+                        <img src=${product.image} height="140" class="card-img-top">
+                        <div class="card-header overflow-auto" style="height:80px">
+                            ${product.title}
                         </div>
-                         <div class="card-body">
-                                <dl class="ms-2">
-                                    <dt>Price</dt>
-                                    <dd>${product.price} </dd>
-                                    <dt> Rating </dt>
-                                    <dd><span class="bi bi-star-fill text-success"></span>${product.rating.rate} review [${product.rating.count}]
-                                </dl>
-                            </div>
+                        <div class="card-body">
+                            <dl>
+                                <dt>Price</dt>
+                                <dd>${product.price}</dd>
+                                <dt>Rating</dt>
+                                <dd>${product.rating.rate} <span class="bi bi-star-fill text-success"></span> [${product.rating.count}] </dd>
+                            </dl>
+                        </div>
                         <div class="card-footer">
-                            <button class="btn btn-danger w-100" onclick="AddClick(${product.id})"><span class="bi bi-cart4"></span>Add to Cart</button>
-                        </div>   
-                        `;
-                        document.querySelector("main").appendChild(div);
-                    }
-                })
+                            <button onclick="AddClick(${product.id})" class="bi bi-cart4 btn btn-danger w-100"> Add to Cart</button>
+                        </div>
+                      `;
+                      document.querySelector("main").appendChild(div);
+                 })
+            })
         }
 
-        var cartItems = [];
-        function GetCartCount() {
-            document.getElementById("count").innerHTML = cartItems.length;
-        }
-
-        function AddClick(id) {
-            fetch(`https://fakestoreapi.com/products/${id}`)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (product) {
-                    cartItems.push(product);
-                    alert(`${product.title}\n Added to Cart`)
-                    GetCartCount();
-                })
-        }
-
-        function categoryChange() {
-            var categoryName = document.getElementById("listCategories").value;
-            if (categoryName == "all") {
-                loadProducts("https://fakestoreapi.com/products");
-            }
-            else {
-                loadProducts(`https://fakestoreapi.com/products/category/${categoryName}`);
-            }
-
-        }
-         
-        function bodyLoad() {
-            loadCategories();
-            loadProducts("https://fakestoreapi.com/products");
+        function bodyload(){
+            LoadCategories();
+            LoadProducts("http://fakestoreapi.com/products");
             GetCartCount();
         }
 
-        function showCartItems() {
-            document.querySelector("tbody").innerHTML = "";
-            for (var item of cartItems) {
+        function CategoryChanged(){
+            var categoryName = document.getElementById("lstCategories").value;
+            if(categoryName=="all"){
+                LoadProducts("http://fakestoreapi.com/products");
+            } else {
+                LoadProducts(`http://fakestoreapi.com/products/category/${categoryName}`);
+            }
+        }
+        function DisplayCategory(categoryName){
+            if(categoryName=="all"){
+                LoadProducts("http://fakestoreapi.com/products");
+            } else {
+                LoadProducts(`http://fakestoreapi.com/products/category/${categoryName}`);
+            }
+        }
+        var cartItems = [];
+
+        function GetCartCount(){
+            document.getElementById("lblCount").innerHTML = cartItems.length;
+        }
+
+        function AddClick(id){
+            fetch(`http://fakestoreapi.com/products/${id}`)
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(product){
+                cartItems.push(product);
+                alert(`${product.title}\nAdded to Cart`);
+                GetCartCount();
+            })
+        }
+        function ShowCartItems(){
+            document.querySelector("tbody").innerHTML= "";
+            cartItems.map(function(item){
                 var tr = document.createElement("tr");
                 var tdTitle = document.createElement("td");
                 var tdPrice = document.createElement("td");
                 var tdPreview = document.createElement("td");
-
                 tdTitle.innerHTML = item.title;
                 tdPrice.innerHTML = item.price;
-                tdPreview.innerHTML = `<img src =${item.image} height=55px width=55px>`;
+                tdPreview.innerHTML = `<img width="50" height="50" src=${item.image}>`;
 
                 tr.appendChild(tdTitle);
-                tr.appendChild(tdPrice);
                 tr.appendChild(tdPreview);
+                tr.appendChild(tdPrice);
 
                 document.querySelector("tbody").appendChild(tr);
-            }
+            })
         }
     </script>
     <style>
-        .btn-warning:hover{
-            transform: scale(1.1);
-            transition: 1s;
-            border:2px solid rgb(255, 123, 0);
+        a:hover{
+            text-decoration: none;
+            color: white;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        .me-3{
+            color: black;
+        }
+        .iconss:hover{
+        font-size: 25px;
+        border: 1px solid rgb(0, 0, 0);
+        border-radius: 10px;
+        background-color: black;
+        color: white;
         }
     </style>
 </head>
-<body class="container-fluid" onload="bodyLoad()">
-    <header class="bg-danger w-100 p-2 text-center text-white">
-        <h1> <span class="bi bi-cart4"></span>I-SHOP</h1>
-    </header>
-    <section class="mt-2 row">
-        <nav class="col-2">
-            <div>
-                <label class="form-label"><h5>Select Categories</h5></label>
-                <div>
-                    <select onchange="categoryChange()" class="form-select" id="listCategories">
-                    </select>
-                </div>
-                <label class="form-label mt-5"><h5>Please Do Visit also:<br> Click Below</h5></label>
-                <a class="text-warning" style="text-decoration: none;" href="https://khanafzal17.github.io/Shopper-Template-Complete/#" target="_blank"><button class="btn btn-warning fw-bold  text-end">SHOPPER-TEMPLATE</button></a>
-            </div>
-        </nav>
-        <main class="col-8 d-flex flex-wrap overflow-auto" style="height:500px">
-        </main>
-        <article class="col-2">
-            <button onclick="showCartItems()" class="btn btn-danger w-100" data-bs-target="#cart"
-                data-bs-toggle="modal">
-                <span class="bi bi-cart"></span> [<span id="count"></span>] Your Cart </button>
+<body class="container-fluid" onload="bodyload()">
+    <header class="mt-2 p-4 d-flex bg-light justify-content-between">
+        <div>
+            <span class="h3">Fashop.</span>
+        </div>
+        <div>
+            <span class="me-3 iconss"><a href="javascript:DisplayCategory('all')">Home</a></span>
+            <span class="me-3 iconss"><a href="javascript:DisplayCategory('electronics')">Electronics</a></span>
+            <span class="me-3 iconss"><a href="javascript:DisplayCategory('jewelery')">Jewelery</a></span>
+            <span class="me-3 iconss"><a href="javascript:DisplayCategory('men\'s clothing')">Men's Fashion</a></span>
+            <span class="me-3 iconss"><a href="javascript:DisplayCategory('women\'s clothing')">Women's Fashion</a></span>
+        </div>
+        <div>
+            <span class="bi bi-search me-3 iconss"></span>
+            <span class="bi bi-heart me-3 iconss"></span>
+           <a href="./Loginform.html"><span class="bi bi-person me-3 iconss "></span></a>
+            <button onclick="ShowCartItems()" data-bs-target="#cart" data-bs-toggle="modal" class="bi bi-cart4 btn position-relative iconss">
+                <span id="lblCount" class="badge bg-danger text-white rounded-circle position-absolute iconss"></span>
+            </button>
             <div class="modal fade" id="cart">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2>Your Cart Items </h2>
-                            <button class="btn-close" data-bs-dismiss="modal"> </button>
+                            <h3>Your Cart Items</h3>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-                                        <th>Price</th>
                                         <th>Preview</th>
+                                        <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -167,16 +179,34 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-                     </div>
                     </div>
                 </div>
             </div>
-        </article>
+        </div>
+    </header>
+    <section class="mt-2 row">
+        <nav class="col-2">
+            <div>
+                <label class="form-label fw-bold">Select Category</label>
+                <div>
+                    <select onchange="CategoryChanged()" class="form-select" id="lstCategories">
+
+                    </select>
+                </div>
+                <label class="form-label mt-5"><h5>Please Do Visit also:<br> Click Below</h5></label>
+                <a class="text-warning" style="text-decoration: none;" href="https://khanafzal17.github.io/Shopper-Template-Complete/#" target="_blank"><button class="btn btn-warning fw-bold  text-end">SHOPPER-TEMPLATE</button></a>
+            </div>
+        </nav>
+        <main class="col-10 d-flex flex-wrap overflow-auto" style="height:450px">
+
+        </main>
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 </body>
-
 </html>
+
+
+              
+
+   
